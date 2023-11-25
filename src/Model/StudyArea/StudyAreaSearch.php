@@ -2,6 +2,7 @@
 
 namespace App\Model\StudyArea;
 
+use App\Model\Institution\Institution;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
@@ -10,6 +11,7 @@ use yii\data\ActiveDataProvider;
  */
 class StudyAreaSearch extends StudyArea
 {
+    public ?string $institutionName = '';
     /**
      * {@inheritdoc}
      */
@@ -17,7 +19,7 @@ class StudyAreaSearch extends StudyArea
     {
         return [
             [['id'], 'integer'],
-            [['name', 'study_direction', 'education_form'], 'safe'],
+            [['name', 'study_direction', 'education_form', 'institutionName'], 'safe'],
             [['duration', 'cost'], 'number'],
         ];
     }
@@ -40,7 +42,8 @@ class StudyAreaSearch extends StudyArea
      */
     public function search(array $params): ActiveDataProvider
     {
-        $query = StudyArea::find();
+        $selfTable = StudyArea::tableName();
+        $query = self::find()->select( "$selfTable.*");
 
         // add conditions that should always apply here
 
@@ -56,6 +59,14 @@ class StudyAreaSearch extends StudyArea
             return $dataProvider;
         }
 
+        $institutionTable = Institution::tableName();
+
+        $query->addSelect([
+            'institutionName' => "$institutionTable.name"
+        ]);
+
+        $query->joinWith('institution');
+
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
@@ -64,7 +75,6 @@ class StudyAreaSearch extends StudyArea
         ]);
 
         $query->andFilterWhere(['ilike', 'name', $this->name])
-            ->andFilterWhere(['ilike', 'study_direction', $this->study_direction])
             ->andFilterWhere(['ilike', 'education_form', $this->education_form]);
 
         return $dataProvider;

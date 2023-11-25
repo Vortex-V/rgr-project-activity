@@ -116,6 +116,18 @@ class StudyAreaController extends BaseController
         return $this->redirect(['index']);
     }
 
+    public function actionEducationForm()
+    {
+        $searchModel = new StudyAreaSearch();
+        $dataProvider = $searchModel->search($this->request->queryParams);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'isEducationFormRequest' => true,
+        ]);
+    }
+
     /**
      * Finds the Institution model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

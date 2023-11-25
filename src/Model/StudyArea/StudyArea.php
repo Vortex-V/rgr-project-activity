@@ -55,11 +55,11 @@ class StudyArea extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Наименования ВУЗа',
-            'study_direction' => 'Наименование направления обучения',
+            'name' => 'Наименование направления обучения',
             'education_form' => 'Форма обучения',
             'duration' => 'Продолжительность обучения',
-            'cost' => 'Стоимость курса',
+            'cost' => 'Стоимость курса, руб.',
+            'institution_id' => 'Наименование ВУЗа'
         ];
     }
 
@@ -94,5 +94,14 @@ class StudyArea extends ActiveRecord
     public function getEducationForms(): array
     {
         return array_keys(self::getEducationFormLabels());
+    }
+
+    public function getInstitutionItems(): array
+    {
+        return ['Выберите'] + Institution::find()
+                ->select('name')
+                ->indexBy('id')
+                ->asArray()
+                ->column();
     }
 }

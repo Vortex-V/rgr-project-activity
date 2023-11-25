@@ -16,6 +16,44 @@ use yii\widgets\Pjax;
 
 $this->title = 'Направления обучения';
 $this->params['breadcrumbs'][] = $this->title;
+
+$columns = [
+    'name' => ['attribute' => 'name'],
+    'cost' => ['attribute' => 'cost'],
+    'institutionName' => [
+        'attribute' => 'institutionName'
+    ],
+    'action' => [
+        'class' => ActionColumn::class,
+        'urlCreator' => static function ($action, StudyArea $model) {
+            return Url::toRoute([$action, 'id' => $model->id]);
+        }
+    ],
+
+];
+
+/** @var bool $isEducationFormRequest */
+if (!$isEducationFormRequest) {
+    $columns = [
+        'id' => ['attribute' => 'id'],
+        'education_form' => [
+            'attribute' => 'education_form',
+            'value' => static function (StudyArea $model) {
+                return StudyArea::getEducationFormLabel($model->education_form);
+            },
+            'filter' => Html::dropDownList(
+                Html::getInputName($searchModel, 'education_form'),
+                $searchModel->education_form ?? null,
+                ['' => 'Выберите'] + StudyArea::getEducationFormLabels(),
+                [
+                    'class' => 'form-control form-select',
+                ],
+            ),
+        ],
+        'duration' => ['attribute' => 'duration'],
+
+    ] + $columns;
+}
 ?>
 <div class="study-area-index">
 
@@ -31,33 +69,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridViewWidget::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
-        'columns' => [
-            'id',
-            'name:ntext',
-            'study_direction:ntext',
-            'education_form' => [
-                'attribute' => 'education_form',
-                'value' => static function (StudyArea $model) {
-                    return StudyArea::getEducationFormLabel($model->education_form);
-                },
-                'filter' => Html::dropDownList(
-                    Html::getInputName($searchModel, 'education_form'),
-                    $searchModel->education_form ?? null,
-                    ['' => 'Выберите'] + StudyArea::getEducationFormLabels(),
-                    [
-                        'class' => 'form-control form-select',
-                    ],
-                ),
-            ],
-            'duration',
-            'cost',
-            [
-                'class' => ActionColumn::class,
-                'urlCreator' => static function ($action, StudyArea $model) {
-                    return Url::toRoute([$action, 'id' => $model->id]);
-                }
-            ],
-        ],
+        'columns' => $columns,
     ]) ?>
 
     <?php Pjax::end(); ?>

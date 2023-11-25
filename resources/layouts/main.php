@@ -29,7 +29,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 <body class="d-flex flex-column h-100 overflow-x-hidden">
 <?php $this->beginBody() ?>
 
-<div class="d-flex h-100">
+<div class="d-flex">
     <aside class="col-2 bg-dark navbar-nav-scroll py-2">
         <?= $this->render('_nav') ?>
     </aside>

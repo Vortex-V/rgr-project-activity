@@ -50,7 +50,7 @@ PHP 7.4.
 Инсталляция
 ------------
 ~~~
-git clone https://gitflic.ru/project/vortexv/...
+git clone https://github.com/Vortex-V/rgr-project-activity.git
 
 composer update
 

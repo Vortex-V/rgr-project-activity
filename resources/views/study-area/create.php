@@ -5,8 +5,8 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var App\Model\StudyArea\StudyArea $model */
 
-$this->title = 'Create Institution';
-$this->params['breadcrumbs'][] = ['label' => 'Institutions', 'url' => ['index']];
+$this->title = 'Форма обучения';
+$this->params['breadcrumbs'][] = ['label' => 'Форма обучения', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="institution-create">
