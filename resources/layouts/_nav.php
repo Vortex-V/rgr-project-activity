@@ -12,7 +12,6 @@ $linkOptions = [
 $items = [
     ['label' => 'Сведения о вузах', 'url' => ['/institution/index']],
     ['label' => 'Направления обучения', 'url' => ['/study-area/index']],
-    ['label' => 'Форма обучения', 'url' => ['/study-area/education-form']],
 ];
 
 foreach ($items as &$item) {

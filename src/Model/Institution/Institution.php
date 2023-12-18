@@ -43,7 +43,7 @@ class Institution extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
+            'name' => 'Наименование заведения',
         ];
     }
 

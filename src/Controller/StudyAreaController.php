@@ -119,12 +119,11 @@ class StudyAreaController extends BaseController
     public function actionEducationForm()
     {
         $searchModel = new StudyAreaSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+        $dataProvider = $searchModel->searchForEducationForm($this->request->queryParams);
 
-        return $this->render('index', [
+        return $this->render('education-form', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'isEducationFormRequest' => true,
         ]);
     }
 

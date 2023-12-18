@@ -12,6 +12,17 @@ use yii\data\ActiveDataProvider;
 class StudyAreaSearch extends StudyArea
 {
     public ?string $institutionName = '';
+
+    private ?array $sortConfig = [];
+
+    public function attributeLabels(): array
+    {
+        return parent::attributeLabels() + [
+                'institutionName' => 'Наименование вуза'
+            ];
+    }
+
+
     /**
      * {@inheritdoc}
      */
@@ -43,40 +54,57 @@ class StudyAreaSearch extends StudyArea
     public function search(array $params): ActiveDataProvider
     {
         $selfTable = StudyArea::tableName();
-        $query = self::find()->select( "$selfTable.*");
-
-        // add conditions that should always apply here
-
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
+        $query = self::find()->select("$selfTable.*");
 
         $this->load($params);
+        if ($this->validate()) {
+            #region select
+            $institutionTable = Institution::tableName();
+            $query->addSelect([
+                'institutionName' => "$institutionTable.name"
+            ]);
+            #endregion
 
-        if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
-            return $dataProvider;
+            #region join
+            $query->joinWith('institution');
+            #endregion
+
+            #region filter
+            $query->andFilterWhere([
+                "$selfTable.id" => $this->id,
+                "$selfTable.duration" => $this->duration,
+                "$selfTable.cost" => $this->cost,
+            ]);
+
+            $query->andFilterWhere(['ilike', "$selfTable.name", $this->name])
+                ->andFilterWhere(['ilike', "$selfTable.education_form", $this->education_form]);
+            #endregion
         }
 
-        $institutionTable = Institution::tableName();
+        $this->sortConfig['params'] = $params;
 
-        $query->addSelect([
-            'institutionName' => "$institutionTable.name"
+        return new ActiveDataProvider([
+            'query' => $query,
+            'sort' => $this->sortConfig
         ]);
+    }
 
-        $query->joinWith('institution');
+    public function searchForEducationForm(array $params): ActiveDataProvider
+    {
+        if (empty($params['sort'])) {
+            $params['sort'] = 'cost';
+        }
 
-        // grid filtering conditions
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'duration' => $this->duration,
-            'cost' => $this->cost,
-        ]);
+        $this->sortConfig = [
+            'attributes' => [
+                'name',
+                'cost' => [
+                    'default' => SORT_ASC
+                ]
+            ],
+            'enableMultiSort' => true
+        ];
 
-        $query->andFilterWhere(['ilike', 'name', $this->name])
-            ->andFilterWhere(['ilike', 'education_form', $this->education_form]);
-
-        return $dataProvider;
+        return $this->search($params);
     }
 }

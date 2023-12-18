@@ -14,7 +14,7 @@ use yii\widgets\Pjax;
  * @var yii\data\ActiveDataProvider $dataProvider
  */
 
-$this->title = 'Высшие образовательные учреждения';
+$this->title = 'Высшие учебные заведения';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="institution-index">
@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Institution', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Добавить учебное заведение', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php Pjax::begin(); ?>
