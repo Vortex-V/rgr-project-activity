@@ -8,7 +8,7 @@ use yii\helpers\Html;
 $this->title = 'Учёбное заведение: ' . $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Учебные заведения', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'Редактирование';
 ?>
 <div class="institution-update">
 

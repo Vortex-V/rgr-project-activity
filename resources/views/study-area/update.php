@@ -5,10 +5,10 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var App\Model\StudyArea\StudyArea $model */
 
-$this->title = 'Форма обучения: ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Форма обучения', 'url' => ['index']];
+$this->title = 'Направление обучения: ' . $model->name;
+$this->params['breadcrumbs'][] = ['label' => 'Направление обучения', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'Редактирование';
 ?>
 <div class="institution-update">
 

@@ -12,7 +12,7 @@ use yii\widgets\DetailView;
 
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Форма обучения', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Направление обучения', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 YiiAsset::register($this);
 ?>
